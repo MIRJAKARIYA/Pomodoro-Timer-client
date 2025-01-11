@@ -1,7 +1,7 @@
 const { configureStore } = require("@reduxjs/toolkit");
-import employeeReducer from "@/app/redux-toolkit/Slices/UserSlice"
+import userReducer from "@/app/redux-toolkit/Slices/UserSlice"
 export const store = configureStore({
     reducer:{
-        employeeData:employeeReducer
+        userData:userReducer
     }
 })

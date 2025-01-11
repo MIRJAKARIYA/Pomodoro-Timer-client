@@ -1,54 +1,33 @@
-const { createSlice,nanoid, createAsyncThunk, current } = require("@reduxjs/toolkit");
+const { createSlice, current } = require("@reduxjs/toolkit");
 
 const initialState = {
-    employees:JSON.parse(localStorage.getItem("emp"))||[],
-    isLoading:false,
-    error:null,
-    employeesAPIData:[]
-}
-
-export const apiData = createAsyncThunk("apidata",async ()=>{
-    const response = await fetch("https://jsonplaceholder.typicode.com/users")
-    console.log(response)
-    return response.json()
-})
+  user: localStorage.getItem("loggedInUser")
+    ? JSON.parse(localStorage.getItem("loggedInUser"))
+    : {},
+  loading: true,
+};
 
 const Slice = createSlice({
-    name:"addEmployeeSlice",
-    initialState,
-    reducers:{
-        addEmployee:(state,action)=>{
-            console.log(action)
-            const data = {
-                id: nanoid(),
-                name:action.payload
-            }
-            state.employees.push(data)
-            let empData = JSON.stringify(current(state.employees))
-            localStorage.setItem("emp",empData)
-        },
-        removeEmployee:(state,action)=>{
-          
-            state.employees = state.employees.filter(em=> em.id !=action.payload)
-            localStorage.setItem("emp",JSON.stringify(state.employees))
-        }
+  name: "addEmployeeSlice",
+  initialState,
+  reducers: {
+    addUser: (state, action) => {
+      const data = {
+        _id: action.payload._id,
+        nme: action.payload.name,
+        email: action.payload.email,
+        avatar_url: action.payload.avatar_url,
+      };
+      state.user = data;
+      let empData = JSON.stringify(current(state.user));
+      localStorage.setItem("loggedInUser", empData);
     },
-    extraReducers:(builder)=>{
-        builder.addCase(apiData.pending,(state)=>{
-            state.isLoading = true
-            state.error = null
-        })
-        builder.addCase(apiData.fulfilled,(state ,action)=>{
-            state.isLoading = false;
-            state.employeesAPIData = action.payload
-        })
-        builder.addCase(apiData.rejected,(state ,action)=>{
-            state.isLoading = false;
-            state.error = action.error.message
-        })
-    }
+    removeUser: (state, action) => {
+      state.user = {};
+      localStorage.removeItem("loggedInUser");
+    },
+  },
 });
 
-
-export const {addEmployee,removeEmployee} = Slice.actions
+export const { addUser,removeUser } = Slice.actions;
 export default Slice.reducer;
