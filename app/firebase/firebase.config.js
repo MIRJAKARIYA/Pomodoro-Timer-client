@@ -5,12 +5,12 @@ import { initializeApp,getAuth } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBQAFpisaz6J288Tcnpj9d4U-PfYh1-4V8",
-  authDomain: "romodoro-app.firebaseapp.com",
-  projectId: "romodoro-app",
-  storageBucket: "romodoro-app.firebasestorage.app",
-  messagingSenderId: "609772529451",
-  appId: "1:609772529451:web:7f9fbff530308b3ed1476e"
+  apiKey: process.env.NEXT_APP_apiKey,
+  authDomain: process.env.NEXT_APP_authDomain,
+  projectId: process.env.NEXT_APP_projectId,
+  storageBucket: process.env.NEXT_APP_storageBucket,
+  messagingSenderId: process.env.NEXT_APP_messagingSenderId,
+  appId: process.env.NEXT_APP_appId
 };
 
 // Initialize Firebase
