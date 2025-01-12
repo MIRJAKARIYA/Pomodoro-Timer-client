@@ -3,9 +3,11 @@ import { useState } from "react";
 import { createUserWithEmailAndPassword,updateProfile,signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase.config";
 import { useRouter } from 'next/navigation';
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 const SignUpPage = () => {
   const router = useRouter();
+  const axiosPublic = useAxiosPublic()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,10 +17,9 @@ const SignUpPage = () => {
 
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
-
-
-  const handleChange = (e) => {
   
+  
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -57,7 +58,13 @@ const SignUpPage = () => {
           console.log(formData.name,formData.avatar)
           updateProfile(user, {
             displayName: formData.name, photoURL: formData.avatar
-          }).then(() => {
+          }).then(async() => {
+            //call api from here to store user data
+            axiosPublic.post("/api/users",{
+              name:formData.name,
+              email:formData.email,
+              avatar_url:formData.avatar
+            })
             signOut(auth).then(()=>{
               router.push("/sign-in")
             })

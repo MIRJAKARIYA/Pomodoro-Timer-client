@@ -1,12 +1,17 @@
 // pages/login.js
-"use client"
+"use client";
 import { useState } from "react";
 import Head from "next/head";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebase.config";
 import { useDispatch } from "react-redux";
+import { addUser } from "@/app/redux-toolkit/Slices/UserSlice";
+import { useRouter } from "next/navigation";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 export default function Login() {
-    const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const axiosPublic = useAxiosPublic();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -41,11 +46,17 @@ export default function Login() {
     } else {
       setErrors({});
       // Simulate login logic (e.g., API call)
-      signInWithEmailAndPassword(auth,email.value,password.value)
-      .then((currentUser)=>{
-        console.log(currentUser.user)
-      })
-      console.log("User logged in with data:", formData);
+      signInWithEmailAndPassword(auth, email.value, password.value).then(
+        (currentUser) => {
+
+          axiosPublic.get(`/api/users/${currentUser?.user?.email}`)
+          .then((res)=>{
+            dispatch(addUser(res?.data?.data));
+            localStorage.setItem("loggedInUser",JSON.stringify(res?.data?.data))
+            router.push("/")
+          });
+        }
+      );
       setSuccessMessage("Login successful!");
     }
   };
@@ -56,11 +67,16 @@ export default function Login() {
         <title>Login</title>
       </Head>
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">Login</h2>
+        <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
+          Login
+        </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Email Field */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
               Email
             </label>
             <input
@@ -72,12 +88,17 @@ export default function Login() {
               className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
               placeholder="Enter your email"
             />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
           </div>
 
           {/* Password Field */}
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
               Password
             </label>
             <input
@@ -89,7 +110,9 @@ export default function Login() {
               className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
               placeholder="Enter your password"
             />
-            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+            )}
           </div>
 
           {/* Submit Button */}
