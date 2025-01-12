@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <>
     {/* 25 minutes 1500 seconds */}
-    <Timer timeSpan={10} timerType="focus-session"/>
+    <Timer timeSpan={1500} timerType="focus-session"/>
     </>
   );
 }

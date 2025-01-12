@@ -1,4 +1,3 @@
-// pages/login.js
 "use client";
 import { useState } from "react";
 import Head from "next/head";
@@ -8,6 +7,8 @@ import { useDispatch } from "react-redux";
 import { addUser } from "@/app/redux-toolkit/Slices/UserSlice";
 import { useRouter } from "next/navigation";
 import useAxiosPublic from "../hooks/useAxiosPublic";
+import Link from "next/link";
+
 export default function Login() {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -45,37 +46,43 @@ export default function Login() {
       setSuccessMessage("");
     } else {
       setErrors({});
-      // Simulate login logic (e.g., API call)
-      signInWithEmailAndPassword(auth, email.value, password.value).then(
-        (currentUser) => {
-
-          axiosPublic.get(`/api/users/${currentUser?.user?.email}`)
-          .then((res)=>{
-            dispatch(addUser(res?.data?.data));
-            localStorage.setItem("loggedInUser",JSON.stringify(res?.data?.data))
-            router.push("/")
-          });
-        }
-      );
-      setSuccessMessage("Login successful!");
+      signInWithEmailAndPassword(auth, formData.email, formData.password)
+        .then((currentUser) => {
+          axiosPublic
+            .get(`/api/users/${currentUser?.user?.email}`)
+            .then((res) => {
+              dispatch(addUser(res?.data?.data));
+              localStorage.setItem(
+                "loggedInUser",
+                JSON.stringify(res?.data?.data)
+              );
+              router.push("/");
+            });
+        })
+        .catch((error) => {
+          setErrors({ email: "Invalid login credentials." });
+        });
     }
   };
 
   return (
-    <div className="bg-gradient-to-br from-green-400 to-teal-500 min-h-screen flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 flex items-center justify-center">
       <Head>
         <title>Login</title>
       </Head>
-      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold text-gray-800 text-center mb-6">
-          Login
+      <div className="bg-white/20 backdrop-blur-lg shadow-xl rounded-2xl p-8 w-full max-w-md border border-white/10">
+        <h2 className="text-3xl font-extrabold text-white text-center mb-6">
+          Welcome Back
         </h2>
+        <p className="text-center text-gray-200 mb-4">
+          Log in to your account to continue.
+        </p>
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Email Field */}
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-200"
             >
               Email
             </label>
@@ -85,11 +92,11 @@ export default function Login() {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+              className="mt-1 w-full px-4 py-2 bg-white/30 border border-white/20 rounded-lg shadow-sm text-gray-100 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-400"
               placeholder="Enter your email"
             />
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+              <p className="text-red-400 text-sm mt-1">{errors.email}</p>
             )}
           </div>
 
@@ -97,7 +104,7 @@ export default function Login() {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-200"
             >
               Password
             </label>
@@ -107,18 +114,18 @@ export default function Login() {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+              className="mt-1 w-full px-4 py-2 bg-white/30 border border-white/20 rounded-lg shadow-sm text-gray-100 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-400"
               placeholder="Enter your password"
             />
             {errors.password && (
-              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+              <p className="text-red-400 text-sm mt-1">{errors.password}</p>
             )}
           </div>
 
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full py-3 px-4 bg-purple-500 hover:bg-purple-600 text-white rounded-lg font-semibold shadow-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400"
           >
             Login
           </button>
@@ -126,8 +133,21 @@ export default function Login() {
 
         {/* Success Message */}
         {successMessage && (
-          <p className="text-green-500 text-center mt-4">{successMessage}</p>
+          <p className="text-green-300 text-center mt-4">{successMessage}</p>
         )}
+
+        {/* Sign Up Link */}
+        <div className="mt-6 text-center">
+          <p className="text-gray-200 text-sm">
+            Don&apos;t have an account?{" "}
+            <Link
+              href="/sign-up"
+              className="text-purple-300 font-medium hover:underline"
+            >
+              Sign Up
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -1,16 +1,33 @@
 "use client";
+import { signOut } from "firebase/auth";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { auth } from "../firebase/firebase.config";
+import { removeUser } from "../redux-toolkit/Slices/UserSlice";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const {user} = useSelector((state)=> state?.userData)
+  const router = useRouter()
+  const dispatch = useDispatch()
+  
+ const handleSignOut = () =>{
+  signOut(auth)
+  .then(()=>{
+    dispatch(removeUser({}))
 
+  })
+ }
   return (
-    <nav className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg">
-      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+    <nav className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white shadow-lg">
+      <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <div className="text-2xl font-bold">
-          <Link href="/">MyFancyApp</Link>
+        <div className="text-3xl font-bold">
+            <span className="cursor-pointer hover:text-gray-300 transition duration-300">
+              MyFancyApp
+            </span>
         </div>
 
         {/* Hamburger Menu for Small Screens */}
@@ -19,7 +36,7 @@ export default function Navbar() {
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           <svg
-            className="h-6 w-6"
+            className="h-7 w-7"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -43,26 +60,74 @@ export default function Navbar() {
           </svg>
         </button>
 
-        {/* Links */}
-        <div
-          className={`md:flex items-center space-x-6 ${
-            isMenuOpen ? "block" : "hidden"
-          } md:block`}
-        >
-          <Link
-            href="/"
-            className="hover:text-gray-200 transition duration-300"
-          >
-            Home
-          </Link>
-          <Link
-            href="/dashboard"
-            className="hover:text-gray-200 transition duration-300"
-          >
-            Dashboard
-          </Link>
+        {/* Links for Desktop */}
+        <div className="hidden md:flex items-center space-x-6">
+          {!user?.email ? (
+            <Link
+              href="/sign-in"
+              className="hover:text-gray-200 transition duration-300 font-medium"
+            >
+              Login
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/"
+                className="hover:text-gray-200 transition duration-300 font-medium"
+              >
+                Home
+              </Link>
+              <Link
+                href="/dashboard"
+                className="hover:text-gray-200 transition duration-300 font-medium"
+              >
+                Dashboard
+              </Link>
+              <button
+                onClick={handleSignOut} // Replace with actual logout logic
+                className="bg-white text-purple-600 hover:bg-gray-200 font-medium px-4 py-2 rounded-lg shadow-md transition duration-300"
+              >
+                Logout
+              </button>
+            </>
+          )}
         </div>
       </div>
+
+      {/* Dropdown for Mobile */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-purple-600 text-white space-y-4 py-4 px-6">
+          {!user?.email ? (
+            <Link
+              href="/sign-in"
+              className="block hover:text-gray-300 transition duration-300"
+            >
+              Login
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/"
+                className="block hover:text-gray-300 transition duration-300"
+              >
+                Home
+              </Link>
+              <Link
+                href="/dashboard"
+                className="block hover:text-gray-300 transition duration-300"
+              >
+                Dashboard
+              </Link>
+              <button
+                onClick={handleSignOut} // Replace with actual logout logic
+                className="w-full text-left bg-white text-purple-600 hover:bg-gray-200 font-medium px-4 py-2 rounded-lg shadow-md transition duration-300"
+              >
+                Logout
+              </button>
+            </>
+          )}
+        </div>
+      )}
     </nav>
   );
 }

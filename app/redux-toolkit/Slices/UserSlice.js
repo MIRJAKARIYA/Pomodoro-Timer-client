@@ -21,7 +21,7 @@ const Slice = createSlice({
       // localStorage.setItem("loggedInUser", empData);
     },
     removeUser: (state, action) => {
-      state.user = {};
+      state.user =action.payload;
       localStorage.removeItem("loggedInUser");
     },
   },
