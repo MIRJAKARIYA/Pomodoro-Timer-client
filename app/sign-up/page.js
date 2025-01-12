@@ -1,8 +1,11 @@
 "use client";
 import { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword,updateProfile,signOut } from "firebase/auth";
+import { auth } from "../firebase/firebase.config";
+import { useRouter } from 'next/navigation';
 
 const SignUpPage = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,6 +18,7 @@ const SignUpPage = () => {
 
   // Handle input changes
   const handleChange = (e) => {
+  
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -45,18 +49,33 @@ const SignUpPage = () => {
     } else {
       setErrors({});
       // Simulate signup logic (e.g., API call)
-      createUserWithEmailAndPassword(auth, email, password)
+      
+      createUserWithEmailAndPassword(auth, email.value, password.value)
         .then((userCredential) => {
+    
           // Signed up
           const user = userCredential.user;
-          // ...
+          // console.log(user)
+          updateProfile(auth.currentUser, {
+            displayName: name.value, photoURL: avatar.value
+          }).then(() => {
+            signOut(auth).then(()=>{
+
+            })
+            router.push("/sign-in")
+          }).catch((error) => {
+            // An error occurred
+            // ...
+          });
+      
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
+          console.log(errorMessage)
           // ..
         });
-      console.log("User signed up with data:", formData);
+      
       setSuccessMessage("Signup successful!");
       setFormData({ name: "", email: "", avatar: "", password: "" });
     }
