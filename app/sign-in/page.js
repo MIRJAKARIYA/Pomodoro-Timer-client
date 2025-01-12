@@ -3,7 +3,10 @@
 import { useState } from "react";
 import Head from "next/head";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/firebase.config";
+import { useDispatch } from "react-redux";
 export default function Login() {
+    const dispatch = useDispatch()
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -38,6 +41,10 @@ export default function Login() {
     } else {
       setErrors({});
       // Simulate login logic (e.g., API call)
+      signInWithEmailAndPassword(auth,email.value,password.value)
+      .then((currentUser)=>{
+        console.log(currentUser.user)
+      })
       console.log("User logged in with data:", formData);
       setSuccessMessage("Login successful!");
     }

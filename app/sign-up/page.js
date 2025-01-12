@@ -16,14 +16,14 @@ const SignUpPage = () => {
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
 
-  // Handle input changes
+
   const handleChange = (e) => {
   
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Validate form fields
+
   const validate = () => {
     const errors = {};
     if (!formData.name.trim()) errors.name = "Name is required.";
@@ -48,25 +48,21 @@ const SignUpPage = () => {
       setSuccessMessage("");
     } else {
       setErrors({});
-      // Simulate signup logic (e.g., API call)
       
-      createUserWithEmailAndPassword(auth, email.value, password.value)
+      createUserWithEmailAndPassword(auth, formData.email, formData.password)
         .then((userCredential) => {
-    
-          // Signed up
+  
           const user = userCredential.user;
-          // console.log(user)
-          updateProfile(auth.currentUser, {
-            displayName: name.value, photoURL: avatar.value
+
+          console.log(formData.name,formData.avatar)
+          updateProfile(user, {
+            displayName: formData.name, photoURL: formData.avatar
           }).then(() => {
             signOut(auth).then(()=>{
-
+              router.push("/sign-in")
             })
-            router.push("/sign-in")
-          }).catch((error) => {
-            // An error occurred
-            // ...
-          });
+            
+          })
       
         })
         .catch((error) => {
@@ -88,7 +84,6 @@ const SignUpPage = () => {
           Sign Up
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Name Field */}
           <div>
             <label
               htmlFor="name"
@@ -110,7 +105,6 @@ const SignUpPage = () => {
             )}
           </div>
 
-          {/* Email Field */}
           <div>
             <label
               htmlFor="email"
@@ -131,8 +125,6 @@ const SignUpPage = () => {
               <p className="text-red-500 text-sm mt-1">{errors.email}</p>
             )}
           </div>
-
-          {/* Avatar URL Field */}
           <div>
             <label
               htmlFor="avatar"
@@ -154,7 +146,6 @@ const SignUpPage = () => {
             )}
           </div>
 
-          {/* Password Field */}
           <div>
             <label
               htmlFor="password"
@@ -176,7 +167,7 @@ const SignUpPage = () => {
             )}
           </div>
 
-          {/* Submit Button */}
+
           <button
             type="submit"
             className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -185,7 +176,6 @@ const SignUpPage = () => {
           </button>
         </form>
 
-        {/* Success Message */}
         {successMessage && (
           <p className="text-green-500 text-center mt-4">{successMessage}</p>
         )}
