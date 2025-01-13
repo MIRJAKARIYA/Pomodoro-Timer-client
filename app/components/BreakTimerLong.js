@@ -1,18 +1,11 @@
 "use client";
 import { useTimer } from "react-timer-hook";
-import useAxiosPublic from "../hooks/useAxiosPublic";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchFocusData } from "../redux-toolkit/Slices/FocusData";
-import { fetchStreakData } from "../redux-toolkit/Slices/streakData";
-import { useEffect, useState } from "react";
+
+
 
 const BreakTimerLong= ({setTymerTime}) => {
   // console.log("time span: ",timeSpan)
   const expiryTimestamp = new Date();
-  // const [exTimeSpan,setExTimeSpan] = useState()
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state?.userData);
-  const axiosPublic = useAxiosPublic();
   expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 7); // Timer span
 // console.log(expiryTimestamp)
   const sessionCompleted = async () => {

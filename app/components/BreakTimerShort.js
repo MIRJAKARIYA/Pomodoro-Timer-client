@@ -1,18 +1,11 @@
 "use client";
 import { useTimer } from "react-timer-hook";
-import useAxiosPublic from "../hooks/useAxiosPublic";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchFocusData } from "../redux-toolkit/Slices/FocusData";
-import { fetchStreakData } from "../redux-toolkit/Slices/streakData";
-import { useEffect, useState } from "react";
+
 
 const BreakTimerShort = ({setTymerTime}) => {
   // console.log("time span: ",timeSpan)
   const expiryTimestamp = new Date();
   // const [exTimeSpan,setExTimeSpan] = useState()
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state?.userData);
-  const axiosPublic = useAxiosPublic();
   expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 5); // Timer span
 // console.log(expiryTimestamp)
   const sessionCompleted = async () => {
@@ -36,7 +29,7 @@ const BreakTimerShort = ({setTymerTime}) => {
   return (
     <>
       {/* Buttons above the timer */}
-      <h1 className="text-4xl font-bold mb-4">SHORT</h1>
+      <h1 className="text-4xl font-bold mb-4">SHORT BREAK</h1>
       <div className="flex justify-center items-center text-8xl font-mono space-x-2 bg-gray-700 p-6 rounded-lg shadow-lg">
         <span>{String(minutes).padStart(2, "0")}</span>
         <span className="text-gray-400">:</span>
