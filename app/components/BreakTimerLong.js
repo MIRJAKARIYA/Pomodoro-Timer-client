@@ -6,7 +6,7 @@ import { useTimer } from "react-timer-hook";
 const BreakTimerLong= ({setTymerTime}) => {
   // console.log("time span: ",timeSpan)
   const expiryTimestamp = new Date();
-  expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 7); // Timer span
+  expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 900); // Timer span
 // console.log(expiryTimestamp)
   const sessionCompleted = async () => {
     console.log("Long break completed");
@@ -21,7 +21,7 @@ const BreakTimerLong= ({setTymerTime}) => {
 
   const reset = () => {
     const time = new Date();
-    time.setSeconds(time.getSeconds() + 7);
+    time.setSeconds(time.getSeconds() + 900);
     restart(time);
     pause();
   };

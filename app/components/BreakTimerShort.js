@@ -6,7 +6,7 @@ const BreakTimerShort = ({setTymerTime}) => {
   // console.log("time span: ",timeSpan)
   const expiryTimestamp = new Date();
   // const [exTimeSpan,setExTimeSpan] = useState()
-  expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 5); // Timer span
+  expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 300); // Timer span
 // console.log(expiryTimestamp)
   const sessionCompleted = async () => {
     console.log("Short Break completed");
@@ -21,7 +21,7 @@ const BreakTimerShort = ({setTymerTime}) => {
 
   const reset = () => {
     const time = new Date();
-    time.setSeconds(time.getSeconds() + 5);
+    time.setSeconds(time.getSeconds() + 300);
     restart(time);
     pause();
   };

@@ -8,6 +8,10 @@ import { fetchStreakData } from "./redux-toolkit/Slices/streakData";
 import useFocusAndStreakData from "./hooks/useFocusAndStreakData";
 import BreakTimerLong from "./components/BreakTimerLong";
 import BreakTimerShort from "./components/BreakTimerShort";
+import Strepper from "./components/Strepper";
+import calculateBadges from "./utils/calculateBadge";
+
+
 export default function Home() {
   const router = useRouter();
   const data2 = useFocusAndStreakData();
@@ -17,10 +21,10 @@ export default function Home() {
     loading: streakLoading,
     error: streakError,
   } = useSelector((state) => state.streakData);
-  // console.log(streakData);
+  console.log(streakData);
   const { user } = useSelector((state) => state?.userData);
   const [timerTime, setTymerTime] = useState("focus-session");
-
+  const badges = calculateBadges(streakData?.longestStreak)
   useEffect(() => {
     if (!user?.email) {
       router.push("/sign-in");
@@ -28,15 +32,18 @@ export default function Home() {
   }, [user, router]);
 
   const handlePromodoro = (type) => {
-
     setTymerTime(type)
   }
   return (
-    <>
+    <div className="bg-gradient-to-br from-gray-800 via-gray-700 to-gray-900">
       {/* 25 minutes 1500 seconds */}
+      <h1 className="text-white">currentStreak</h1>
+      <Strepper data={streakData}></Strepper>
 
-      <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-gray-800 via-gray-700 to-gray-900 text-white">
+      <div className="flex flex-col items-center justify-center h-screen  text-white">
         {/* Buttons above the timer */}
+     
+        
         <div className="mb-6 flex space-x-4">
           <button
             onClick={() => handlePromodoro("focus-session")}
@@ -72,6 +79,6 @@ export default function Home() {
       
         </div>
       </div>
-    </>
+    </div>
   );
 }
