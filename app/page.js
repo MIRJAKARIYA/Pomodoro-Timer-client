@@ -10,6 +10,7 @@ import BreakTimerLong from "./components/BreakTimerLong";
 import BreakTimerShort from "./components/BreakTimerShort";
 import Strepper from "./components/Strepper";
 import calculateBadges from "./utils/calculateBadge";
+import ShowBadge from "./components/ShowBadge";
 
 
 export default function Home() {
@@ -39,6 +40,7 @@ export default function Home() {
       {/* 25 minutes 1500 seconds */}
       <h1 className="text-white">currentStreak</h1>
       <Strepper data={streakData}></Strepper>
+      <ShowBadge badges={badges}></ShowBadge>
 
       <div className="flex flex-col items-center justify-center h-screen  text-white">
         {/* Buttons above the timer */}
