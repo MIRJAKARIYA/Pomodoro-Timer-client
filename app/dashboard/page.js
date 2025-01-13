@@ -2,56 +2,19 @@
 import React from "react";
 import ShowBarChart from "../components/ShowBarChart";
 import ShowAreaChart from "../components/ShowAreaChart";
+import { useSelector } from "react-redux";
+import useFocusAndStreakData from "../hooks/useFocusAndStreakData";
 
 
 const Dashboard = () => {
-  const data = [
-    {
-      date: "2025-01-05",
-      dayNumberOfSessions: 0,
-      daySummation: 0,
-    },
-    {
-      date: "2025-01-06",
-      dayNumberOfSessions: 2,
-      daySummation: 50,
-    },
-    {
-      date: "2025-01-07",
-      dayNumberOfSessions: 1,
-      daySummation: 25,
-    },
-    {
-      date: "2025-01-08",
-      dayNumberOfSessions: 0,
-      daySummation: 0,
-    },
-    {
-      date: "2025-01-09",
-      dayNumberOfSessions: 0,
-      daySummation: 0,
-    },
-    {
-      date: "2025-01-10",
-      dayNumberOfSessions: 0,
-      daySummation: 0,
-    },
-    {
-      date: "2025-01-11",
-      dayNumberOfSessions: 0,
-      daySummation: 0,
-    },
-    {
-      date: "2025-01-12",
-      dayNumberOfSessions: 4,
-      daySummation: 100,
-    },
-  ];
+const data2 = useFocusAndStreakData()
+  const { focusData, loading, error } = useSelector((state) => state.focusData);
+  const { streakData, loading:streakLoading, error:streakError } = useSelector((state) => state.streakData);
 
 
   return <div>
-    <ShowBarChart data={data}></ShowBarChart>
-    <ShowAreaChart data={data}></ShowAreaChart>
+    <ShowBarChart data={focusData.last8Days}></ShowBarChart>
+    <ShowAreaChart data={focusData.last8Days}></ShowAreaChart>
   </div>;
 };
 

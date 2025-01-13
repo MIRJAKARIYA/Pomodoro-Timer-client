@@ -1,4 +1,4 @@
-const { createSlice, current } = require("@reduxjs/toolkit");
+const { createSlice } = require("@reduxjs/toolkit");
 
 const initialState = {
   user: localStorage.getItem("loggedInUser") ? JSON.parse(localStorage.getItem("loggedInUser")):{},
@@ -6,7 +6,7 @@ const initialState = {
 };
 
 const Slice = createSlice({
-  name: "addEmployeeSlice",
+  name: "addUserSlice",
   initialState,
   reducers: {
     addUser: (state, action) => {

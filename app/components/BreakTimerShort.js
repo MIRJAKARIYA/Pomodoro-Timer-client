@@ -6,35 +6,18 @@ import { fetchFocusData } from "../redux-toolkit/Slices/FocusData";
 import { fetchStreakData } from "../redux-toolkit/Slices/streakData";
 import { useEffect, useState } from "react";
 
-const Timer = ({setTymerTime}) => {
+const BreakTimerShort = ({setTymerTime}) => {
   // console.log("time span: ",timeSpan)
   const expiryTimestamp = new Date();
   // const [exTimeSpan,setExTimeSpan] = useState()
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state?.userData);
   const axiosPublic = useAxiosPublic();
-  expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 10); // Timer span
+  expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 5); // Timer span
 // console.log(expiryTimestamp)
   const sessionCompleted = async () => {
-    console.log("session completed");
-
-    const data = {
-      user_id: user?._id,
-      duration: 25,
-    };
-      const response = await axiosPublic.post("/api/focus-session", data, {
-        headers: {
-          user_id: user?._id,
-        },
-      });
-      if (response.data.success) {
-        dispatch(fetchFocusData(user?._id));
-        dispatch(fetchStreakData(user?._id));
-      }
-      
-      reset()
-      setTymerTime("Short-Break")
-    
+    console.log("Short Break completed");
+    setTymerTime("focus-session")
   };
 
   const { seconds, minutes, isRunning, pause, resume, restart } = useTimer({
@@ -45,7 +28,7 @@ const Timer = ({setTymerTime}) => {
 
   const reset = () => {
     const time = new Date();
-    time.setSeconds(time.getSeconds() + 10);
+    time.setSeconds(time.getSeconds() + 5);
     restart(time);
     pause();
   };
@@ -53,14 +36,14 @@ const Timer = ({setTymerTime}) => {
   return (
     <>
       {/* Buttons above the timer */}
-      <h1 className="text-4xl font-bold mb-4">FOCUS SESSION</h1>
+      <h1 className="text-4xl font-bold mb-4">SHORT</h1>
       <div className="flex justify-center items-center text-8xl font-mono space-x-2 bg-gray-700 p-6 rounded-lg shadow-lg">
         <span>{String(minutes).padStart(2, "0")}</span>
         <span className="text-gray-400">:</span>
         <span>{String(seconds).padStart(2, "0")}</span>
       </div>
       <p className="mt-4 text-lg">
-        Focus session 
+        Short break is
         {isRunning ? (
           <span className="text-green-400"> Running</span>
         ) : (
@@ -91,4 +74,4 @@ const Timer = ({setTymerTime}) => {
   );
 };
 
-export default Timer;
+export default BreakTimerShort;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 const ShowAreaChart = ({data}) => {
-    const chartData = data.slice(1).map((item) => ({
+    const chartData = data?.slice(1)?.map((item) => ({
         date: item.date,
         summation: item.daySummation
       }));

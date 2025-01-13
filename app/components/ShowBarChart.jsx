@@ -2,7 +2,7 @@
 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 const ShowBarChart = ({data}) => {
-    const chartData = data.slice(1).map((item) => ({
+    const chartData = data?.slice(1)?.map((item) => ({
         date: item.date,
         sessions: item.dayNumberOfSessions
       }));
