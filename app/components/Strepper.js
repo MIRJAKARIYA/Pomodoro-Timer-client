@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import "./strepper.css";
 const Strepper = ({data}) => {
 const steps = Array.from({ length: 30 }, (_, i) => i + 1);
+console.log(steps)
+const arr=[3,7,10,15,20,25,30]
     return (
         <>
         
@@ -11,10 +13,10 @@ const steps = Array.from({ length: 30 }, (_, i) => i + 1);
             key={i}
             className={`step-item ${step<=data?.currentStreak && "active"}`}
           >
-            <div className="step">
+            <div className={`step`}>
               {step}
             </div>
-            <p className="text-gray-500">{step}</p>
+            <p className="text-gray-500 invisible">{step}</p>
           </div>
         ))}
       </div>

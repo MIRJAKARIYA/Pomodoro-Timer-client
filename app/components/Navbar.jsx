@@ -26,7 +26,7 @@ export default function Navbar() {
         {/* Logo */}
         <div className="text-3xl font-bold">
             <span className="cursor-pointer hover:text-gray-300 transition duration-300">
-              MyFancyApp
+              PROMODORO
             </span>
         </div>
 
@@ -83,12 +83,15 @@ export default function Navbar() {
               >
                 Dashboard
               </Link>
+              <div className="flex justify-center items-center">
+                <img className="w-10 h-10 rounded-[50%]" src={user?.avatar_url} alt="" />
               <button
                 onClick={handleSignOut} // Replace with actual logout logic
                 className="bg-white text-purple-600 hover:bg-gray-200 font-medium px-4 py-2 rounded-lg shadow-md transition duration-300"
               >
                 Logout
               </button>
+              </div>
             </>
           )}
         </div>
@@ -118,12 +121,15 @@ export default function Navbar() {
               >
                 Dashboard
               </Link>
+              <div className="flex justify-center items-center ">
+                <img className="h-10 w-10 rounded-[50%]" src={user?.avatar_url} alt="" />
               <button
                 onClick={handleSignOut} // Replace with actual logout logic
-                className="w-full text-left bg-white text-purple-600 hover:bg-gray-200 font-medium px-4 py-2 rounded-lg shadow-md transition duration-300"
+                className="bg-white text-purple-600 hover:bg-gray-200 font-medium px-4 py-2 rounded-lg shadow-md transition duration-300"
               >
                 Logout
               </button>
+              </div>
             </>
           )}
         </div>

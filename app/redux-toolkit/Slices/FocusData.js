@@ -10,7 +10,7 @@ export const fetchFocusData = createAsyncThunk(
   'focusData/fetchFocusData',
   async (id) => {
     
-    const response = await fetch(`http://localhost:5000/api/focus-session/${id}`,{
+    const response = await fetch(`https://promodoro-timer-server.vercel.app/api/focus-session/${id}`,{
         headers:{
             user_id:id
         }

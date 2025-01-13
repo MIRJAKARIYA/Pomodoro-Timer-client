@@ -1,17 +1,15 @@
 "use client";
-import { useDispatch, useSelector } from "react-redux";
+import {useSelector } from "react-redux";
 import Timer from "./components/Timer";
 import { useRouter } from "next/navigation";
-import { createContext, useEffect, useState } from "react";
-import { fetchFocusData } from "./redux-toolkit/Slices/FocusData";
-import { fetchStreakData } from "./redux-toolkit/Slices/streakData";
+import { useEffect, useState } from "react";
 import useFocusAndStreakData from "./hooks/useFocusAndStreakData";
 import BreakTimerLong from "./components/BreakTimerLong";
 import BreakTimerShort from "./components/BreakTimerShort";
 import Strepper from "./components/Strepper";
 import calculateBadges from "./utils/calculateBadge";
 import ShowBadge from "./components/ShowBadge";
-import Swal from 'sweetalert2'
+
 
 
 export default function Home() {
@@ -38,15 +36,22 @@ export default function Home() {
   const handlePromodoro = (type) => {
     setTymerTime(type)
   }
+
   return (
     <div className="bg-gradient-to-br from-gray-800 via-gray-700 to-gray-900">
-      {/* 25 minutes 1500 seconds */}
-      <h1 className="text-white">currentStreak</h1>
+
+      <h1 className="text-white font-bold text-center text-xl">CURRENT STREAK</h1>
+      <div className="overflow-auto">
       <Strepper data={streakData}></Strepper>
-      <ShowBadge badges={badges}></ShowBadge>
+      </div>
+      
+      <div>
+      <h1 className="text-white font-bold text-center text-xl pb-6">ACHIEVED BADGES</h1>
+     <ShowBadge badges={badges}></ShowBadge>
+      </div>
      
 
-      <div className="flex flex-col items-center justify-center h-screen  text-white">
+      <div className="flex flex-col items-center justify-center h-screen  text-white -mt-20">
         {/* Buttons above the timer */}
      
         

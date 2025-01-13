@@ -1,10 +1,12 @@
 const { createSlice } = require("@reduxjs/toolkit");
 
 const initialState = {
-  user:localStorage.getItem("loggedInUser")?JSON.parse(localStorage.getItem("loggedInUser")): {},
+  user: {},
   loading: true,
 };
-
+if (typeof window !== "undefined" && localStorage.getItem("loggedInUser")) {
+  initialState.user = JSON.parse(localStorage.getItem("loggedInUser"));
+}
 const Slice = createSlice({
   name: "addUserSlice",
   initialState,
@@ -18,8 +20,7 @@ const Slice = createSlice({
       };
       
       state.user = data;
-      // let empData = JSON.stringify(current(state.user));
-      // localStorage.setItem("loggedInUser", empData);
+
     },
     removeUser: (state, action) => {
       state.user =action.payload;

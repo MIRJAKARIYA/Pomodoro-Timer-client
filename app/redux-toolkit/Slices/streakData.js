@@ -11,7 +11,7 @@ const initialState = {
 export const fetchStreakData = createAsyncThunk(
   'streakData/fetchStreakData', 
   async (id) => {
-    const response = await fetch(`http://localhost:5000/api/current-longest-streaks/${id}`,{
+    const response = await fetch(`https://promodoro-timer-server.vercel.app/api/current-longest-streaks/${id}`,{
       headers:{
         user_id:id
       }

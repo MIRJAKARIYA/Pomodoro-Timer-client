@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import ShowBarChart from "../components/ShowBarChart";
 import ShowAreaChart from "../components/ShowAreaChart";
 import { useSelector } from "react-redux";
@@ -12,7 +12,8 @@ const Dashboard = () => {
 const data2 = useFocusAndStreakData()
   const { focusData, loading, error } = useSelector((state) => state.focusData);
   const { streakData, loading:streakLoading, error:streakError } = useSelector((state) => state.streakData);
-  const user = JSON.parse(localStorage.getItem("loggedInUser"))
+
+
   
 
   return <div className="grid grid-cols-2 border-2 border-red-500">

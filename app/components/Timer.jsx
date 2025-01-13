@@ -17,7 +17,7 @@ const Timer = ({setTymerTime,data}) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state?.userData);
   const axiosPublic = useAxiosPublic();
-  expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 5); // Timer span
+  expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 1500); // Timer span
 // console.log(expiryTimestamp)
   const sessionCompleted = async () => {
     console.log("session completed");
@@ -64,7 +64,7 @@ const Timer = ({setTymerTime,data}) => {
 
   const reset = () => {
     const time = new Date();
-    time.setSeconds(time.getSeconds() + 5);
+    time.setSeconds(time.getSeconds() + 1500);
     restart(time);
     pause();
   };
