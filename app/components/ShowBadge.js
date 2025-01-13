@@ -10,7 +10,6 @@ const ShowBadge = ({badges}) => {
     "https://i.ibb.co.com/KKCg3H8/day-25-removebg-preview.png",
     "https://i.ibb.co.com/KsbQwhH/day-30-removebg-preview.png"
   ];
-  console.log(badges)
 
   const result = Object.entries(badges)
     .map(([key, value], index) => (value === 1 ? { [key]: badgeImages[index] } : null))

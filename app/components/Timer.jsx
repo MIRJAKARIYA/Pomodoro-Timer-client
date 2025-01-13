@@ -4,10 +4,14 @@ import useAxiosPublic from "../hooks/useAxiosPublic";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFocusData } from "../redux-toolkit/Slices/FocusData";
 import { fetchStreakData } from "../redux-toolkit/Slices/streakData";
-import { useEffect, useState } from "react";
 
-const Timer = ({setTymerTime}) => {
+import Swal from "sweetalert2";
+
+const Timer = ({setTymerTime,data}) => {
   // console.log("time span: ",timeSpan)
+  const summation = data?.[7]?.daySummation
+  console.log(summation)
+ 
   const expiryTimestamp = new Date();
   // const [exTimeSpan,setExTimeSpan] = useState()
   const dispatch = useDispatch();
@@ -28,8 +32,23 @@ const Timer = ({setTymerTime}) => {
         },
       });
       if (response.data.success) {
+        Swal.fire({
+          title: "Wow! you have completed one session!!",
+          icon: "success",
+          draggable: true
+        }).then(()=>{
+          if(summation==125){
+            Swal.fire({
+              title: "Wow! you have completed the daily streak!!",
+              icon: "success",
+              draggable: true
+            });
+          }
+        });
+        
         dispatch(fetchFocusData(user?._id));
         dispatch(fetchStreakData(user?._id));
+       
       }
       
       reset()

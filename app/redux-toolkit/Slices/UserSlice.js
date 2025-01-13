@@ -1,7 +1,7 @@
 const { createSlice } = require("@reduxjs/toolkit");
 
 const initialState = {
-  user: localStorage.getItem("loggedInUser") ? JSON.parse(localStorage.getItem("loggedInUser")):{},
+  user:localStorage.getItem("loggedInUser")?JSON.parse(localStorage.getItem("loggedInUser")): {},
   loading: true,
 };
 
@@ -16,6 +16,7 @@ const Slice = createSlice({
         email: action.payload.email,
         avatar_url: action.payload.avatar_url,
       };
+      
       state.user = data;
       // let empData = JSON.stringify(current(state.user));
       // localStorage.setItem("loggedInUser", empData);
@@ -24,8 +25,11 @@ const Slice = createSlice({
       state.user =action.payload;
       localStorage.removeItem("loggedInUser");
     },
+    setInitialData:(state,action)=>{
+      state.user = action.payload
+    },
   },
 });
 
-export const { addUser,removeUser } = Slice.actions;
+export const { addUser,removeUser,setInitialData } = Slice.actions;
 export default Slice.reducer;

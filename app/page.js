@@ -2,7 +2,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import Timer from "./components/Timer";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { fetchFocusData } from "./redux-toolkit/Slices/FocusData";
 import { fetchStreakData } from "./redux-toolkit/Slices/streakData";
 import useFocusAndStreakData from "./hooks/useFocusAndStreakData";
@@ -11,10 +11,12 @@ import BreakTimerShort from "./components/BreakTimerShort";
 import Strepper from "./components/Strepper";
 import calculateBadges from "./utils/calculateBadge";
 import ShowBadge from "./components/ShowBadge";
+import Swal from 'sweetalert2'
 
 
 export default function Home() {
   const router = useRouter();
+
   const data2 = useFocusAndStreakData();
   const { focusData, loading, error } = useSelector((state) => state.focusData);
   const {
@@ -24,6 +26,7 @@ export default function Home() {
   } = useSelector((state) => state.streakData);
   console.log(streakData);
   const { user } = useSelector((state) => state?.userData);
+  
   const [timerTime, setTymerTime] = useState("focus-session");
   const badges = calculateBadges(streakData?.longestStreak)
   useEffect(() => {
@@ -41,6 +44,7 @@ export default function Home() {
       <h1 className="text-white">currentStreak</h1>
       <Strepper data={streakData}></Strepper>
       <ShowBadge badges={badges}></ShowBadge>
+     
 
       <div className="flex flex-col items-center justify-center h-screen  text-white">
         {/* Buttons above the timer */}
@@ -70,7 +74,7 @@ export default function Home() {
         <div className="text-center">
      
           {
-            timerTime==="focus-session" && <Timer setTymerTime={setTymerTime}/>
+            timerTime==="focus-session" && <Timer data={focusData.last8Days} setTymerTime={setTymerTime}/>
           }  
           {
             timerTime ==="Short-Break" && <BreakTimerShort setTymerTime={setTymerTime}/>
